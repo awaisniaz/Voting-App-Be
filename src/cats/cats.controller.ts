@@ -1,21 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, UseGuards, UseInterceptors, Req } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
+import { Request } from 'express';
 import { AuthGuard } from '../Guards/auth.gaurd'
+import { LoggingInterceptable } from '../Interceptor/logging.interceptor'
 @Controller('cats')
+
 export class CatsController {
   constructor(private readonly catsService: CatsService) { }
 
   @Post()
   @UseGuards(AuthGuard)
-  create(@Body() createCatDto: CreateCatDto) {
+  // @UseInterceptors(LoggingInterceptable)
+  create(@Body() createCatDto: CreateCatDto, @Req() req: Request) {
+
     return this.catsService.create(createCatDto);
   }
 
   @Get()
   findAll() {
-    throw new HttpException({ status: HttpStatus?.INTERNAL_SERVER_ERROR, message: "Something went wrong" }, HttpStatus.FORBIDDEN);
+    // throw new HttpException({ status: HttpStatus?.INTERNAL_SERVER_ERROR, message: "Something went wrong" }, HttpStatus.FORBIDDEN);
     return this.catsService.findAll();
   }
 

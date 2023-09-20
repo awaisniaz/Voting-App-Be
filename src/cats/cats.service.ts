@@ -7,7 +7,6 @@ export class CatsService {
   create(createCatDto: CreateCatDto) {
     return 'This action adds a new cat';
   }
-
   findAll() {
     return `This action returns all cats`;
   }
